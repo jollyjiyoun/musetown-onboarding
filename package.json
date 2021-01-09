@@ -1,0 +1,25 @@
+{
+  "name": "musetown-onboarding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jollyjiyoun/musetown-onboarding.git"
+  },
+  "author": "Jiyoun Kim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jollyjiyoun/musetown-onboarding/issues"
+  },
+  "homepage": "https://github.com/jollyjiyoun/musetown-onboarding#readme"
+}
