@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Register Page</title>
 </head>
 <body>
-    <form action="/login/auth" method="post">
+    <form action="/register/auth" method="post">
         <div>
             <label>Username:</label>
             <input type="text" name="username"/>
@@ -16,11 +16,15 @@
             <input type="password" name="password"/>
         </div>
         <div>
-            <input type="submit" value="Log In"/>
+            <label>Password Check:</label>
+            <input type="password" name="password"/>
+        </div>
+        <div>
+            <input type="submit" value="Register"/>
         </div>
         <div>
             <a href = "/">Go to Main Page</a>
-            <a href = "/register">Register</a>
+            <a href = "/login">Login</a>
         </div>
     </form>
 </body>
