@@ -7,7 +7,7 @@ const login = require('./login');//register 성공했다는 표시 어떻게 할
 const router = express.Router();
 
 router.get('/register', (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../','views', 'register.html'));
+    res.render('register', {pageTitle: 'Register Page'})
 });
 
 module.exports = router;
