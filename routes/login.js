@@ -1,19 +1,10 @@
 const express = require('express');
-const session = require("express-session");
-const passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-
-const path = require('path');
-
-const loginSuccess = require('./loginSuccess');//loginsuccess redirect 어떻게 처리할지 고민하기
+const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.render('login', {pageTitle: 'Login Page'});
-});
+router.get('/', authController.getLogin);
 
-router.get('/auth', 
-    passport.authenticate('local', { successRedirect: '/loginSuccess', failureRedirect: '/login', failureFlash: true }));
+router.post('/', authController.postLogin);
 
 module.exports = router;

@@ -2,7 +2,7 @@
 </head>
 <body>
     <h1>Register</h1>
-    <form action="/register/auth" method="post">
+    <form action="/register/type" method="post">
         <div>
             <label>Username:</label>
             <input type="text" name="username"/>
@@ -13,7 +13,7 @@
         </div>
         <div>
             <label>Password Check:</label>
-            <input type="password" name="password"/>
+            <input type="password" name="passwordCheck"/>
         </div>
         <div>
             <input type="submit" value="Register"/>
@@ -23,4 +23,5 @@
             <a href = "/login">Login</a>
         </div>
     </form>
+
 <%- include('includes/head.ejs') %>
