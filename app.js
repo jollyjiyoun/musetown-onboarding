@@ -4,12 +4,14 @@ const mainPage = require('./routes/main');
 const login = require('./routes/login');
 const logout = require('./routes/logout');
 const register = require('./routes/register');
+const path = require('path');
 const PORT = 5000;
 
 //create express application
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public'))); // static file access
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');

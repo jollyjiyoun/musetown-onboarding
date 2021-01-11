@@ -1,27 +1,29 @@
 <%- include('includes/head.ejs') %>
 </head>
 <body>
-    <h1>Register</h1>
-    <form action="/register/type" method="post">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username"/>
+    <%- include('includes/register-header.ejs') %>
+    <div class = "card">
+        <div class="card-header">
+            <h5>Register</h5>
         </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password"/>
-        </div>
-        <div>
-            <label>Password Check:</label>
-            <input type="password" name="passwordCheck"/>
-        </div>
-        <div>
-            <input type="submit" value="Register"/>
-        </div>
-        <div>
-            <a href = "/">Go to Main Page</a>
-            <a href = "/login">Login</a>
-        </div>
-    </form>
+        <div class="card-body"></div>
+            <div class="inner-card-body">
+                <form action="/register/type" method="post">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input class="form-control" type="text" name="username"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input class="form-control" type="password" name="password"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password Confirm</label>
+                        <input class="form-control" type="password" name="passwordCheck"/>
+                    </div>
+                    <div class= "submit-button">
+                        <input class="btn btn-primary" type="submit" value="Register"/>
+                    </div>
+                </form>
 
 <%- include('includes/head.ejs') %>

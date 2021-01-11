@@ -1,0 +1,13 @@
+div.card {
+    margin: 0 auto;
+    float: none;
+    width: 30%;
+    margin-top: 80px;
+}
+.inner-card-body{
+    margin: 0px 10px 5px 10px;
+    padding: 5px;
+}
+.submit-button{
+    margin:15px 0px;
+}
