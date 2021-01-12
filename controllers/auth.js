@@ -8,64 +8,78 @@ exports.getRegister = (req, res, next) => {
     res.render('register', {pageTitle: 'Register Page'})
 };
 
-exports.postRegister = (req, res, next) => {
-    console.log(req.body);
-    const uname = req.body.username;
-    const pw = req.body.password;
-    const pwCheck = req.body.passwordCheck;
-    const saltRounds = 10;
-   
-    db.query("SELECT username FROM users WHERE username = ?", [uname], async (err, results) => {
-        if (err) {
-            console.log(err);
-            res.render('register', {pageTitle: 'Register Page'});
-        } if ( results.length >0 ){ 
-            res.render('register', {message:"This username is already in use.", pageTitle: 'Register Page'});
-        } else if (pw !== pwCheck) {
-            res.render('register', {message: "Passwords do not match.", pageTitle: 'Register Page'});
+exports.postRegister = async (req, res, next) => {
+
+    try{
+        console.log(req.body);
+        const uname = req.body.username;
+        const pw = req.body.password;
+        const pwCheck = req.body.passwordCheck;
+        const saltRounds = 10;
+        
+        const [selectUser, userFields] = await db.query("SELECT username from users WHERE username = ?",
+         [uname]
+        );
+
+        if( selectUser.length >0 ) {
+            throw new Error("username already in use");
         }
 
-        const hashedPwd = await bcrypt.hash(pw, saltRounds);
-        db.query("INSERT INTO users SET ? ", { username: uname , password: hashedPwd}, (err, results) => {
-            if (err) {
-                console.log (err);
-            } else { 
-                console.log("Inserted new username, password into database");
-                res.redirect("/login");
-            }
-        });
-    });
+        if( pw !== pwCheck ) {
+            throw new Error("passwords do not match");
+        }
+
+        const hashedPwd = await bcrypt.hash(pw, saltRounds);    
+
+        // const [insertInfo, insertUserFields]
+        const insertInfo = await db.query("INSERT INTO users SET ? ", { username: uname , password: hashedPwd});
+
+        console.log("Inserted new username, password into database", insertInfo);
+        res.redirect("/login");
+
+    } catch (error) {
+        console.trace(error);
+        res.redirect('/register');
+    }
+
 };
 
-exports.postLogin = (req, res, next) => {
-    console.log(req.body);
-    const uname = req.body.username;
-    const pw = req.body.password;
+exports.postLogin = async (req, res, next) => {
 
-    db.query("SELECT * FROM users WHERE username = ?", [uname], async (err, results) => {
-        console.log("results[0].password", results[0].password);
-        console.log("pw", pw);
-        if(err) {
-            console.log(err);
-            res.render('/login', {pageTitle: 'Login'});
-        } else if ( !uname || !pw ) {
-            console.log("Did not type username or password");
-            res.render('login', {message: "Please type in both the username and password", pageTitle: 'Login'});
-        } else if ( !results.length ) {
-            console.log("Username does not exist");
-            res.render('login', {message: "Username does not exist"});
-        } 
-        const compare = await bcrypt.compare(results[0].password, pw);
-        if (!(compare)){
-            console.log("Incorrect Login Information");
-            res.render('login', {message: "Invalid Login Information", pageTitle: 'Login'});
-        } else {
-            console.log("login success!");
-            res.redirect('/');
+    try {
+        console.log(req.body); // check user info
+        const uname = req.body.username;
+        const pw = req.body.password;
+
+        if ( !uname || !pw ) {
+            throw new Error('username or password required'); // username or password not typed
         }
-    })
-    console.log(req.body);
-    res.render('main', {pageTitle: 'Login Page'});
+        
+        const [userResults, userFields] = await db.query('SELECT * FROM `users` WHERE `username`=? ',
+         [uname]
+        );
+        
+        console.log(userResults);
+        
+        if (!userResults.length) {
+         throw new Error('user not found'); // db record not found
+        }
+        
+        const compare = await bcrypt.compare(pw, userResults[0].password); // return true or false
+        
+        if ( !compare ) {
+         throw new Error('password not matched');
+        }
+        
+        console.log('login success');
+        res.redirect('/');
+        
+       } catch (error) {
+        
+        console.trace(error);
+        res.redirect('/login');
+
+       }
 }
 
 exports.mainPage = (req, res, next) => {
