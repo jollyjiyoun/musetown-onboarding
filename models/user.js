@@ -1,5 +1,4 @@
 const mysql = require("mysql");
-const passport = require("passport");
 const dotenv = require('dotenv');
 
 dotenv.config({path: './.env'});
