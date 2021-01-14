@@ -45,7 +45,7 @@ exports.postRegister = async (req, res, next) => {
         const insertInfo = await db.query("INSERT INTO users SET ? ", { username: uname , password: hashedPwd});
 
         console.log("Inserted new username, password into database", insertInfo);
-        res.redirect("/login");
+        res.redirect("/");
 
     } catch (error) {
         console.trace(error);
@@ -58,7 +58,12 @@ exports.postRegister = async (req, res, next) => {
 exports.postLogin = passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login'
-})
+});
+
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/');
+}
 
 exports.mainPage = (req, res, next) => {
     res.render('main', {pageTitle: 'Main Page'});
